@@ -24,12 +24,26 @@ Empower the organization to make more informed, data-driven decisions when appro
 - Model Training and Tuning: The models were trained and fine-tuned for optimal accuracy.
 - Evaluation: The model was evaluated on test data using metrics such as accuracy, precision, recall, and F1-score.
 
+# EDA
+![Distribution of payment Behavior](./payment.png)
+
+
+![Average outstanding debt by occupation ](./debt.png)
+
 # Models
 1.Logistic regression
 
 2.Random Forest
 
 3.XGBoost
+
+ The performance of the models are as shown below;
+ 
+   | No | Model | AUC Score |
+   |-|-|-|
+   | 01 | Logistic Model | 82% |
+   | 02 | XGBoost  | 93% |
+   | 03 | Random Forest  | 94% |
 
 # Findings
 - The most frequent payment behavior is "Low_spent_Small_value_payments," suggesting that a large proportion of customers prefer conservative spending with smaller payments. This may indicate a cautious or budget-conscious segment of the customer base. These individuals might prioritize staying within a fixed budget, making them potentially lower-risk in terms of credit management.
