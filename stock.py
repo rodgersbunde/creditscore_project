@@ -58,7 +58,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
 # Home page content
 def home_page():
     st.markdown("<h1 class='main-title'>Credit Score Prediction App</h1>", unsafe_allow_html=True)
@@ -102,9 +101,8 @@ def main():
     # Sidebar for user input
     st.sidebar.title('📋 Input Customer Details')
 
-    # Customer data input fields with tooltips and layout in two columns
+    # Customer data input fields
     col1, col2 = st.sidebar.columns(2)
-    
     with col1:
         occupation = st.selectbox("Occupation", ["Scientist", "Engineer", "Architect", "Other", 'Lawyer', 'Mechanic', 'Entrepreneur', 'Teacher', 'Accountant', 'Doctor', 'Media_Manager', 'Developer', 'Musician', 'Journalist', 'Writer', 'Manager'], help="Customer's occupation type")
         annual_income = st.number_input("Annual Income", min_value=0.0, step=500.0, value=50000.0, help="Total yearly income of the customer")
@@ -116,7 +114,7 @@ def main():
         delayed_payments = st.number_input("Number of Delayed Payments", min_value=0, step=1, value=0, help="Total count of delayed payments")
         outstanding_debt = st.number_input("Outstanding Debt", min_value=0.0, step=100.0, value=1000.0, help="Total amount of debt yet to be paid")
         credit_utilization = st.number_input("Credit Utilization Ratio", min_value=0.0, max_value=100.0, step=0.1, value=50.0, help="Percentage of credit used against total credit available")
-    
+
     emi_per_month = st.sidebar.number_input("Total EMI per Month", min_value=0.0, step=10.0, value=200.0, help="Total EMI amount to be paid per month")
     amount_invested = st.sidebar.number_input("Amount Invested Monthly", min_value=0.0, step=10.0, value=500.0, help="Monthly investment amount")
     monthly_balance = st.sidebar.number_input("Monthly Balance", min_value=0.0, step=10.0, value=1000.0, help="Remaining balance at the end of the month")
@@ -170,30 +168,29 @@ def main():
         prediction = st.session_state.model.predict(input_data)
         return prediction[0]
 
-    # Predict button with style and gauge chart
+    # Predict button with updated gauge chart
     if st.sidebar.button("Predict Credit Score"):
         input_data = pd.DataFrame([input_encoded])
         prediction_encoded = predict_credit_score(input_data)
-        
-        # Display prediction and gauge chart
+
         if prediction_encoded is not None:
             prediction = credit_score_encoder.inverse_transform([prediction_encoded])[0]
             gauge_labels = ["Poor", "Standard", "Good"]
-            gauge_color = ["#ff4d4d", "#ffa500", "#32cd32"]
-            gauge_position = gauge_labels.index(prediction) * 100 / 3
-            
-            # Gauge chart
+            gauge_colors = ["#ff4d4d", "#ffa500", "#32cd32"]
+            gauge_index = gauge_labels.index(prediction)
+            gauge_position = gauge_index * 50 + 25
+
             fig = go.Figure(go.Indicator(
                 mode="gauge+number",
                 value=gauge_position,
                 title={'text': "Credit Score"},
                 gauge={
-                    'axis': {'range': [0, 100]},
-                    'bar': {'color': gauge_color[gauge_labels.index(prediction)]},
+                    'axis': {'range': [0, 150], 'tickvals': [25, 75, 125], 'ticktext': gauge_labels},
+                    'bar': {'color': gauge_colors[gauge_index]},
                     'steps': [
-                        {'range': [0, 40], 'color': "#ff4d4d"},
-                        {'range': [45, 60], 'color': "#ffa500"},
-                        {'range': [65, 100], 'color': "#32cd32"},
+                        {'range': [0, 50], 'color': gauge_colors[0]},
+                        {'range': [50, 100], 'color': gauge_colors[1]},
+                        {'range': [100, 150], 'color': gauge_colors[2]},
                     ],
                     'threshold': {
                         'line': {'color': "black", 'width': 4},
@@ -205,5 +202,6 @@ def main():
             st.plotly_chart(fig)
             st.success(f"**Predicted Credit Score Category:** {prediction}")
 
+# Run the app
 if __name__ == "__main__":
     main()
