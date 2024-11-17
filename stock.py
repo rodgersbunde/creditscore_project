@@ -17,33 +17,47 @@ st.set_page_config(
 # Custom CSS for enhanced styling
 st.markdown("""
     <style>
+        /* Main title styling */
         .main-title {
             font-size: 48px;
             font-weight: bold;
-            color: #003366;
+            color: #FFFFFF; /* White for contrast */
             text-align: center;
         }
+
+        /* Sidebar styling */
         .sidebar .sidebar-content {
-            background-color: #2A3E5C;
-            color: white;
+            background-color: #001F3F; /* Dark blue */
+            color: #FFFFFF; /* White text for contrast */
         }
+
+        /* Button styling */
         .stButton>button {
-            background-color: #FF6F61;
+            background-color: #FF6F61; /* Coral for buttons */
             color: white;
             font-size: 18px;
             width: 100%;
             border-radius: 8px;
         }
         .stButton>button:hover {
-            background-color: #E05A47;
+            background-color: #E05A47; /* Slightly darker coral on hover */
         }
+
+        /* Welcome text styling */
         .welcome-text {
             font-size: 20px;
-            color: #333;
+            color: #FFFFFF; /* White for contrast */
             margin-bottom: 30px;
+        }
+
+        /* Background styling */
+        .stApp {
+            background-color: #001F3F; /* Dark blue background */
+            color: #FFFFFF; /* White text for the app */
         }
     </style>
 """, unsafe_allow_html=True)
+
 
 # Home page content
 def home_page():
@@ -177,9 +191,9 @@ def main():
                     'axis': {'range': [0, 100]},
                     'bar': {'color': gauge_color[gauge_labels.index(prediction)]},
                     'steps': [
-                        {'range': [0, 33], 'color': "#ff4d4d"},
-                        {'range': [33, 66], 'color': "#ffa500"},
-                        {'range': [66, 100], 'color': "#32cd32"},
+                        {'range': [0, 40], 'color': "#ff4d4d"},
+                        {'range': [45, 60], 'color': "#ffa500"},
+                        {'range': [65, 100], 'color': "#32cd32"},
                     ],
                     'threshold': {
                         'line': {'color': "black", 'width': 4},
